@@ -22,14 +22,6 @@
       height: 50%;
     }
 
-    .light-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      mix-blend-mode: screen;
-    }
   </style>
 </head>
 <body>
@@ -80,17 +72,15 @@
     setInterval(() => {
       context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-      // Remove existing light overlays
-      const existingOverlays = document.querySelectorAll('.light-overlay');
-      existingOverlays.forEach((overlay) => overlay.parentNode.removeChild(overlay));
-
       for (let rectIndex = 0; rectIndex < rectCount; rectIndex++) {
         const rectX = rectIndex * rectWidth;
-
         const rectangle = document.createElement('div');
-        rectangle.className = 'light-overlay';
+        rectangle.style.position = 'absolute';
+        rectangle.style.top = '0';
+        rectangle.style.left = `${rectX}px`;
+        rectangle.style.width = `${rectWidth}px`;
+        rectangle.style.height = `${rectHeight}px`;
         rectangle.style.backgroundColor = getRectangleColor(rectX);
-
         document.body.appendChild(rectangle);
       }
     }, 33);
