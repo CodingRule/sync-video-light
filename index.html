@@ -36,48 +36,54 @@
   <script>
     const video = document.getElementById('myVideo');
     const canvas = document.getElementById('canvas');
-    const light = document.getElementById('light');
     const context = canvas.getContext('2d');
-    
+    const rectCount = 6; // Number of rectangles
+    const rectWidth = Math.floor(canvas.width / rectCount);
+    const rectHeight = canvas.height;
+
     canvas.style.display = 'none';
 
-    setInterval(() => {
-      context.drawImage(video, 0, 0, canvas.width, canvas.height);
-      const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+    function getRectangleColor(rectX) {
+      const imageData = context.getImageData(rectX, 0, rectWidth, rectHeight);
       const pixels = imageData.data;
-      let lightIntensity = 0;
-      
-      var r;
-      r = 0;
-      var b;
-      b = 0;
-      var g;
-      g = 0;
-      
-      var px;
-      px = 0;
-      
+
+      let r = 0;
+      let g = 0;
+      let b = 0;
+      let px = 0;
+
       for (let i = 0; i < pixels.length; i += 4) {
         const red = pixels[i];
         const green = pixels[i + 1];
         const blue = pixels[i + 2];
-        
-        px = px + 1;
-        
-        r = r + red;
-        b = b + blue;
-        g = g + green;
 
-        const intensity = (red + green + blue) / 3;
-
-        lightIntensity += intensity;
+        px++;
+        r += red;
+        g += green;
+        b += blue;
       }
 
-      lightIntensity /= (pixels.length / 4);
+      const averageRed = Math.floor(r / px);
+      const averageGreen = Math.floor(g / px);
+      const averageBlue = Math.floor(b / px);
 
-      lightIntensity /= 255;
+      return `rgb(${averageRed}, ${averageGreen}, ${averageBlue})`;
+    }
 
-      document.body.style.backgroundColor = `rgb(${r/px}, ${g/px}, ${b/px})`;
+    setInterval(() => {
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+      for (let rectIndex = 0; rectIndex < rectCount; rectIndex++) {
+        const rectX = rectIndex * rectWidth;
+        const rectangle = document.createElement('div');
+        rectangle.style.position = 'absolute';
+        rectangle.style.top = '0';
+        rectangle.style.left = `${rectX}px`;
+        rectangle.style.width = `${rectWidth}px`;
+        rectangle.style.height = `${rectHeight}px`;
+        rectangle.style.backgroundColor = getRectangleColor(rectX);
+        document.body.appendChild(rectangle);
+      }
     }, 33);
   </script>
 </body>
