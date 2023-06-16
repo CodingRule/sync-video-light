@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Video with Synchronized Lights</title>
+  <style>
+    body {
+      background-color: black;
+      margin: 0;
+    }
+
+    .container {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    video {
+      position: relative;
+      width: 40%;
+      height: auto;
+      z-index: 2;
+    }
+
+    #light {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <canvas id="canvas"></canvas>
+    <video id="myVideo" controls autoplay loop>
+      <source src="video.mp4" type="video/mp4">
+    </video>
+    <div id="light"></div>
+  </div>
+
+  <script>
+    const video = document.getElementById('myVideo');
+    const canvas = document.getElementById('canvas');
+    const light = document.getElementById('light');
+    const context = canvas.getContext('2d');
+
+    video.addEventListener('timeupdate', function() {
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+      const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+      const pixels = imageData.data;
+      let lightIntensity = 0;
+
+      for (let i = 0; i < pixels.length; i += 4) {
+        const red = pixels[i];
+        const green = pixels[i + 1];
+        const blue = pixels[i + 2];
+
+        const intensity = (red + green + blue) / 3;
+
+        lightIntensity += intensity;
+      }
+
+      lightIntensity /= (pixels.length / 4);
+
+      lightIntensity /= 255;
+
+      light.style.opacity = lightIntensity;
+    });
+  </script>
+</body>
+</html>
