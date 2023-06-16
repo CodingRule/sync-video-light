@@ -20,7 +20,7 @@
       position: relative;
       width: calc(40% + 8px); /* Add 8 pixels for the overlay */
       height: calc(50% + 8px); /* Add 8 pixels for the overlay */
-      z-index: 2; /* Place the video on top */
+      z-index: 1; /* Place the video on top */
     }
 
     .light-overlay {
@@ -30,7 +30,29 @@
       width: calc(100% + 8px); /* Make the overlay 8 pixels wider */
       height: calc(100% + 8px); /* Make the overlay 8 pixels higher */
       mix-blend-mode: screen;
-      z-index: 1; /* Place the overlay above the video */
+      z-index: 2; /* Place the overlay above the video */
+    }
+
+    #blob {
+      background-color: white;
+      height: 34vmax;
+      aspect-ratio: 1;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      background: linear-gradient(to right, var(--blob-color-1), var(--blob-color-2));
+      animation: rotate 20s infinite;
+      opacity: 0.5;
+    }
+
+    #blur {
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      z-index: 2;
+      backdrop-filter: blur(12vmax);
     }
   </style>
 </head>
@@ -40,6 +62,8 @@
     <video id="myVideo" controls autoplay loop>
       <source src="video.mp4" type="video/mp4">
     </video>
+    <div id="blob"></div>
+    <div id="blur"></div>
   </div>
 
   <script>
