@@ -49,7 +49,8 @@
     const light = document.getElementById('light');
     const context = canvas.getContext('2d');
 
-    video.addEventListener('timeupdate', function() {
+    // video.addEventListener('timeupdate', function() {
+    setInterval(() => {
       context.drawImage(video, 0, 0, canvas.width, canvas.height);
       const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
       const pixels = imageData.data;
@@ -70,7 +71,8 @@
       lightIntensity /= 255;
 
       light.style.opacity = lightIntensity;
-    });
+      }, 250);
+    // });
   </script>
 </body>
 </html>
