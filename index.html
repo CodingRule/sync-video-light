@@ -48,10 +48,6 @@
     const canvas = document.getElementById('canvas');
     const light = document.getElementById('light');
     const context = canvas.getContext('2d');
-    
-    var r;
-    var b;
-    var g;
 
     // video.addEventListener('timeupdate', function() {
     setInterval(() => {
@@ -59,11 +55,25 @@
       const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
       const pixels = imageData.data;
       let lightIntensity = 0;
+      
+        var r;
+      r = 0;
+    var b;
+      b = 0;
+    var g;
+      g=0;
+      
+      var px;
+      px = 0;
+      
+      
 
       for (let i = 0; i < pixels.length; i += 4) {
         const red = pixels[i];
         const green = pixels[i + 1];
         const blue = pixels[i + 2];
+        
+        px = px + 1;
         
         r = r + red;
         b = b + blue;
@@ -79,7 +89,7 @@
       lightIntensity /= 255;
 
       // light.style.opacity = lightIntensity * 100;
-      light.style.backgroundColor = `rgb(${r/(pixels.length/4)}, ${g/(pixels.length/4)}, ${b/(pixels.length/4)})`;
+      document.body.style.backgroundColor = `rgb(${r/px}, ${g/px}, ${b/px})`;
       }, 33);
     // });
   </script>
