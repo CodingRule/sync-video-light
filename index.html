@@ -19,8 +19,8 @@
     video {
       position: relative;
       width: 100%;
-      height: 100%;
-      /* z-index: 2; */
+      height: auto;
+      z-index: 2;
     }
 
     #light {
@@ -32,18 +32,17 @@
       border-radius: 10px;
       border: 2px solid white;
       box-shadow: 0 0 20px 10px rgba(255, 255, 255, 0.5);
-      /* z-index: 1; */
+      z-index: 1;
     }
   </style>
 </head>
 <body>
   <div class="container">
     <canvas id="canvas"></canvas>
-    <div id="light">
+    <div id="light"></div>
     <video id="myVideo" controls autoplay loop>
       <source src="video.mp4" type="video/mp4">
     </video>
-    </div>
   </div>
 
   <script>
@@ -51,7 +50,7 @@
     const canvas = document.getElementById('canvas');
     const light = document.getElementById('light');
     const context = canvas.getContext('2d');
-    
+
     canvas.style.display = 'none';
 
     setInterval(() => {
@@ -59,38 +58,34 @@
       const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
       const pixels = imageData.data;
       let lightIntensity = 0;
-      
-      var r;
-      r = 0;
-      var b;
-      b = 0;
-      var g;
-      g = 0;
-      
-      var px;
-      px = 0;
-      
+
+      let r = 0;
+      let g = 0;
+      let b = 0;
+      let px = 0;
+
       for (let i = 0; i < pixels.length; i += 4) {
         const red = pixels[i];
         const green = pixels[i + 1];
         const blue = pixels[i + 2];
-        
-        px = px + 1;
-        
-        r = r + red;
-        b = b + blue;
-        g = g + green;
+
+        px++;
+        r += red;
+        g += green;
+        b += blue;
 
         const intensity = (red + green + blue) / 3;
-
         lightIntensity += intensity;
       }
 
-      lightIntensity /= (pixels.length / 4);
-
+      lightIntensity /= pixels.length / 4;
       lightIntensity /= 255;
 
-      document.body.style.backgroundColor = `rgb(${r/px}, ${g/px}, ${b/px})`;
+      const averageRed = r / px;
+      const averageGreen = g / px;
+      const averageBlue = b / px;
+
+      light.style.backgroundColor = `rgb(${averageRed}, ${averageGreen}, ${averageBlue})`;
     }, 33);
   </script>
 </body>
