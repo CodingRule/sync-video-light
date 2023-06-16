@@ -20,7 +20,7 @@
       position: relative;
       width: calc(40% + 8px); /* Add 8 pixels for the overlay */
       height: calc(50% + 8px); /* Add 8 pixels for the overlay */
-      z-index: 1; /* Place the video on top */
+      z-index: 2; /* Place the video on top */
     }
 
     .light-overlay {
@@ -30,7 +30,7 @@
       width: calc(100% + 8px); /* Make the overlay 8 pixels wider */
       height: calc(100% + 8px); /* Make the overlay 8 pixels higher */
       mix-blend-mode: screen;
-      z-index: 2; /* Place the overlay above the video */
+      z-index: 1; /* Place the overlay above the video */
     }
   </style>
 </head>
