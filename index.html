@@ -72,40 +72,13 @@
     setInterval(() => {
       context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-      const marginRectCount = Math.floor(rectCount / 2);
-      const marginWidth = Math.floor((canvas.width - rectWidth) / marginRectCount);
-
-      for (let rectIndex = 0; rectIndex < marginRectCount; rectIndex++) {
-        const rectX = rectIndex * marginWidth;
-        const rectangle = document.createElement('div');
-        rectangle.style.position = 'absolute';
-        rectangle.style.top = '0';
-        rectangle.style.left = `${rectX}px`;
-        rectangle.style.width = `${marginWidth}px`;
-        rectangle.style.height = `${rectHeight}px`;
-        rectangle.style.backgroundColor = getRectangleColor(rectX);
-        document.body.appendChild(rectangle);
-      }
-
-      for (let rectIndex = marginRectCount; rectIndex < rectCount - marginRectCount; rectIndex++) {
-        const rectX = marginRectCount * marginWidth + (rectIndex - marginRectCount) * rectWidth;
+      for (let rectIndex = 0; rectIndex < rectCount; rectIndex++) {
+        const rectX = rectIndex * rectWidth;
         const rectangle = document.createElement('div');
         rectangle.style.position = 'absolute';
         rectangle.style.top = '0';
         rectangle.style.left = `${rectX}px`;
         rectangle.style.width = `${rectWidth}px`;
-        rectangle.style.height = `${rectHeight}px`;
-        rectangle.style.backgroundColor = getRectangleColor(rectX);
-        document.body.appendChild(rectangle);
-      }
-
-      for (let rectIndex = rectCount - marginRectCount; rectIndex < rectCount; rectIndex++) {
-        const rectX = (rectIndex - (rectCount - marginRectCount)) * marginWidth + (rectCount - marginRectCount) * rectWidth;
-        const rectangle = document.createElement('div');
-        rectangle.style.position = 'absolute';
-        rectangle.style.top = '0';
-        rectangle.style.left = `${rectX}px`;
-        rectangle.style.width = `${marginWidth}px`;
         rectangle.style.height = `${rectHeight}px`;
         rectangle.style.backgroundColor = getRectangleColor(rectX);
         document.body.appendChild(rectangle);
